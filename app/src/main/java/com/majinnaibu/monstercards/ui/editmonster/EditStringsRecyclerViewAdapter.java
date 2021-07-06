@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.majinnaibu.monstercards.databinding.SimpleListItemBinding;
 import com.majinnaibu.monstercards.utils.ItemCallback;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 public class EditStringsRecyclerViewAdapter extends RecyclerView.Adapter<EditStringsRecyclerViewAdapter.ViewHolder> {
@@ -23,7 +25,7 @@ public class EditStringsRecyclerViewAdapter extends RecyclerView.Adapter<EditStr
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
         return new ViewHolder(SimpleListItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
@@ -47,7 +49,7 @@ public class EditStringsRecyclerViewAdapter extends RecyclerView.Adapter<EditStr
         public final TextView mContentView;
         public String mItem;
 
-        public ViewHolder(@NonNull SimpleListItemBinding binding) {
+        public ViewHolder(SimpleListItemBinding binding) {
             super(binding.getRoot());
             mContentView = binding.content;
         }

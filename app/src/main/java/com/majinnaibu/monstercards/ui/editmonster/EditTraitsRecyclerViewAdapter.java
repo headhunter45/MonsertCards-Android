@@ -13,6 +13,8 @@ import com.majinnaibu.monstercards.databinding.SimpleListItemBinding;
 import com.majinnaibu.monstercards.models.Trait;
 import com.majinnaibu.monstercards.utils.ItemCallback;
 
+import org.jetbrains.annotations.NotNull;
+
 public class EditTraitsRecyclerViewAdapter extends ListAdapter<Trait, EditTraitsRecyclerViewAdapter.ViewHolder> {
     private static final DiffUtil.ItemCallback<Trait> DIFF_CALLBACK = new DiffUtil.ItemCallback<Trait>() {
 
@@ -35,7 +37,7 @@ public class EditTraitsRecyclerViewAdapter extends ListAdapter<Trait, EditTraits
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
         return new ViewHolder(SimpleListItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
@@ -54,7 +56,7 @@ public class EditTraitsRecyclerViewAdapter extends ListAdapter<Trait, EditTraits
         public final TextView mContentView;
         public Trait mItem;
 
-        public ViewHolder(@NonNull SimpleListItemBinding binding) {
+        public ViewHolder(SimpleListItemBinding binding) {
             super(binding.getRoot());
             mContentView = binding.content;
         }

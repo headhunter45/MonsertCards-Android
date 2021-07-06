@@ -7,8 +7,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.majinnaibu.monstercards.databinding.SimpleListItemBinding;
 import com.majinnaibu.monstercards.models.Skill;
 import com.majinnaibu.monstercards.utils.ItemCallback;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -26,8 +29,8 @@ public class EditSkillsRecyclerViewAdapter extends RecyclerView.Adapter<EditSkil
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(com.majinnaibu.monstercards.databinding.SimpleListItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+    public ViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
+        return new ViewHolder(SimpleListItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
     @Override
@@ -50,7 +53,7 @@ public class EditSkillsRecyclerViewAdapter extends RecyclerView.Adapter<EditSkil
         public final TextView mContentView;
         public Skill mItem;
 
-        public ViewHolder(@NonNull com.majinnaibu.monstercards.databinding.SimpleListItemBinding binding) {
+        public ViewHolder(SimpleListItemBinding binding) {
             super(binding.getRoot());
             mContentView = binding.content;
         }

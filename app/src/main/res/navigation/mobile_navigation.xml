@@ -24,12 +24,12 @@
             app:destination="@id/navigation_monster" />
     </fragment>
     <fragment
-        android:id="@+id/navigation_collections"
-        android:name="com.majinnaibu.monstercards.ui.collections.CollectionsFragment"
-        android:label="@string/title_collections"
-        tools:layout="@layout/fragment_collections">
+        android:id="@+id/navigation_decks"
+        android:name="com.majinnaibu.monstercards.ui.decks.DecksFragment"
+        android:label="@string/title_decks"
+        tools:layout="@layout/fragment_decks">
         <action
-            android:id="@+id/action_navigation_collections_to_navigation_monster"
+            android:id="@+id/action_navigation_decks_to_navigation_monster"
             app:destination="@id/navigation_monster" />
     </fragment>
     <fragment

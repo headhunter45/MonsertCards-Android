@@ -12,9 +12,9 @@
         android:title="@string/title_dashboard" />
 
     <item
-        android:id="@+id/navigation_collections"
-        android:icon="@drawable/ic_collections_black_24dp"
-        android:title="@string/title_collections" />
+        android:id="@+id/navigation_decks"
+        android:icon="@drawable/ic_decks_black_24dp"
+        android:title="@string/title_decks" />
 
     <item
         android:id="@+id/navigation_library"

@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_search,
                 R.id.navigation_dashboard,
-                R.id.navigation_collections,
+                R.id.navigation_decks,
                 R.id.navigation_library)
                 .build();
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);

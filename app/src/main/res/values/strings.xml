@@ -2,6 +2,7 @@
     <string name="action_add_ability">Add Ability</string>
     <string name="action_add_condition_immunity">Add Condition</string>
     <string name="action_add_damage_type">Add Damage Type</string>
+    <string name="action_add_deck">Add Deck</string>
     <string name="action_add_item">Add Item</string>
     <string name="action_add_language">Add Language</string>
     <string name="action_add_monster">Add monster</string>
@@ -91,7 +92,7 @@
     <string name="snackbar_failed_to_create_monster">Failed to create monster</string>
     <string name="snackbar_monster_created">%1$s created</string>
     <string name="strength_abbreviation">STR</string>
-    <string name="title_collections">Collections</string>
+    <string name="title_decks">Decks</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_editAbilities">Ability</string>
     <string name="title_editAbility">Abilities</string>

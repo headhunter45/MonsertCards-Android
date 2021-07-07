@@ -2,10 +2,11 @@ package com.majinnaibu.monstercards.models;
 
 import androidx.annotation.Nullable;
 
-import java.util.Comparator;
+import com.majinnaibu.monstercards.utils.Hasher;
+
 import java.util.Objects;
 
-public class Trait implements Comparator<Trait>, Comparable<Trait> {
+public class Trait implements Comparable<Trait> {
 
     public String name;
     public String description;
@@ -16,17 +17,15 @@ public class Trait implements Comparator<Trait>, Comparable<Trait> {
     }
 
     @Override
-    public int compareTo(Trait o) {
-        return compare(this, o);
-    }
-
-    @Override
-    public int compare(Trait o1, Trait o2) {
-        int result = o1.name.compareToIgnoreCase(o2.name);
-        if (result != 0) {
-            return result;
+    public int compareTo(Trait other) {
+        // TODO: Make this work if other is null.
+        // TODO: Make this work if either name is null.
+        // TODO: Make this work if either description is null.
+        int compareResult = name.compareToIgnoreCase(other.name);
+        if (compareResult != 0) {
+            return compareResult;
         }
-        return o1.description.compareToIgnoreCase(o2.description);
+        return description.compareToIgnoreCase(other.description);
     }
 
     @Override
@@ -45,5 +44,13 @@ public class Trait implements Comparator<Trait>, Comparable<Trait> {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public int hashCode() {
+        Hasher hasher = new Hasher(17, 23);
+        hasher.combine(name);
+        hasher.combine(description);
+        return hasher.total();
     }
 }

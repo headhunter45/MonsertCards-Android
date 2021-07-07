@@ -1,12 +1,12 @@
 package com.majinnaibu.monstercards.models;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import java.util.Comparator;
+import com.majinnaibu.monstercards.utils.Hasher;
+
 import java.util.Objects;
 
-public class Language implements Comparator<Language>, Comparable<Language> {
+public class Language implements Comparable<Language> {
 
     private String mName;
     private boolean mSpeaks;
@@ -33,25 +33,16 @@ public class Language implements Comparator<Language>, Comparable<Language> {
     }
 
     @Override
-    public int compareTo(Language o) {
-        if (this.mSpeaks && !o.mSpeaks) {
+    public int compareTo(Language other) {
+        // TODO: Make this work if other is null.
+        // TODO: Make this work if either name is null.
+        if (this.mSpeaks && !other.mSpeaks) {
             return -1;
         }
-        if (!this.mSpeaks && o.mSpeaks) {
+        if (!this.mSpeaks && other.mSpeaks) {
             return 1;
         }
-        return this.mName.compareToIgnoreCase(o.mName);
-    }
-
-    @Override
-    public int compare(@NonNull Language o1, Language o2) {
-        if (o1.mSpeaks && !o2.mSpeaks) {
-            return -1;
-        }
-        if (!o1.mSpeaks && o2.mSpeaks) {
-            return 1;
-        }
-        return o1.mName.compareToIgnoreCase(o2.mName);
+        return this.mName.compareToIgnoreCase(other.mName);
     }
 
     @Override
@@ -70,5 +61,13 @@ public class Language implements Comparator<Language>, Comparable<Language> {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public int hashCode() {
+        Hasher hasher = new Hasher(47, 11);
+        hasher.combine(mName);
+        hasher.combine(mSpeaks);
+        return hasher.total();
     }
 }

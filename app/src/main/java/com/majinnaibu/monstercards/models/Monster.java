@@ -14,6 +14,7 @@ import com.majinnaibu.monstercards.data.enums.ArmorType;
 import com.majinnaibu.monstercards.data.enums.ChallengeRating;
 import com.majinnaibu.monstercards.data.enums.ProficiencyType;
 import com.majinnaibu.monstercards.helpers.StringHelper;
+import com.majinnaibu.monstercards.utils.Hasher;
 import com.majinnaibu.monstercards.utils.Logger;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ import java.util.UUID;
 @Entity(tableName = "monsters")
 @SuppressLint("DefaultLocale")
 @SuppressWarnings("unused")
-public class Monster {
+public class Monster implements Comparable<Monster> {
 
     @PrimaryKey
     @NonNull
@@ -918,194 +919,219 @@ public class Monster {
         if (!intelligenceSavingThrowProficiency.equals(other.intelligenceSavingThrowProficiency)) {
             return false;
         }
-        if (constitutionSavingThrowProficiency.equals(other.constitutionSavingThrowProficiency)) {
+        if (!constitutionSavingThrowProficiency.equals(other.constitutionSavingThrowProficiency)) {
             return false;
         }
-
-        if (dexteritySavingThrowProficiency.equals(other.dexteritySavingThrowProficiency)) {
+        if (!dexteritySavingThrowProficiency.equals(other.dexteritySavingThrowProficiency)) {
             return false;
         }
-
-        if (strengthSavingThrowProficiency.equals(other.strengthSavingThrowProficiency)) {
+        if (!strengthSavingThrowProficiency.equals(other.strengthSavingThrowProficiency)) {
             return false;
         }
-
-        if (legendaryActions.equals(other.legendaryActions)) {
+        if (!legendaryActions.equals(other.legendaryActions)) {
             return false;
         }
-
-        if (customChallengeRatingDescription.equals(other.customChallengeRatingDescription)) {
+        if (!customChallengeRatingDescription.equals(other.customChallengeRatingDescription)) {
             return false;
         }
-
-        if (customSpeedDescription.equals(other.customSpeedDescription)) {
+        if (!customSpeedDescription.equals(other.customSpeedDescription)) {
             return false;
         }
-
-        if (customHPDescription.equals(other.customHPDescription)) {
+        if (!customHPDescription.equals(other.customHPDescription)) {
             return false;
         }
-
-        if (otherArmorDescription.equals(other.otherArmorDescription)) {
+        if (!otherArmorDescription.equals(other.otherArmorDescription)) {
             return false;
         }
-
-        if (alignment.equals(other.alignment)) {
+        if (!alignment.equals(other.alignment)) {
             return false;
         }
-
-        if (subtype.equals(other.subtype)) {
+        if (!subtype.equals(other.subtype)) {
             return false;
         }
-
-        if (abilities.equals(other.abilities)) {
+        if (!abilities.equals(other.abilities)) {
             return false;
         }
-
-        if (actions.equals(other.actions)) {
+        if (!actions.equals(other.actions)) {
             return false;
         }
-
-        if (armorType.equals(other.armorType)) {
+        if (!armorType.equals(other.armorType)) {
             return false;
         }
-
-        if (charismaSavingThrowAdvantage.equals(other.charismaSavingThrowAdvantage)) {
+        if (!charismaSavingThrowAdvantage.equals(other.charismaSavingThrowAdvantage)) {
             return false;
         }
-
-        if (constitutionSavingThrowAdvantage.equals(other.constitutionSavingThrowAdvantage)) {
+        if (!constitutionSavingThrowAdvantage.equals(other.constitutionSavingThrowAdvantage)) {
             return false;
         }
-
-        if (dexteritySavingThrowAdvantage.equals(other.dexteritySavingThrowAdvantage)) {
+        if (!dexteritySavingThrowAdvantage.equals(other.dexteritySavingThrowAdvantage)) {
             return false;
         }
-
-        if (hitDice == other.hitDice) {
+        if (hitDice != other.hitDice) {
             return false;
         }
-
-        if (id.equals(other.id)) {
+        if (!id.equals(other.id)) {
             return false;
         }
-
-        if (intelligenceSavingThrowAdvantage.equals(other.intelligenceSavingThrowAdvantage)) {
+        if (!intelligenceSavingThrowAdvantage.equals(other.intelligenceSavingThrowAdvantage)) {
             return false;
         }
-
-        if (lairActions.equals(other.lairActions)) {
+        if (!lairActions.equals(other.lairActions)) {
             return false;
         }
-
-        if (name.equals(other.name)) {
+        if (!name.equals(other.name)) {
             return false;
         }
-
-        if (reactions.equals(other.reactions)) {
+        if (!reactions.equals(other.reactions)) {
             return false;
         }
-
-        if (regionalActions.equals(other.regionalActions)) {
+        if (!regionalActions.equals(other.regionalActions)) {
             return false;
         }
-
-        if (senses.equals(other.senses)) {
+        if (!senses.equals(other.senses)) {
             return false;
         }
-
-        if (shieldBonus == other.shieldBonus) {
+        if (shieldBonus != other.shieldBonus) {
             return false;
         }
-
-        if (size.equals(other.size)) {
+        if (!size.equals(other.size)) {
             return false;
         }
-
-        if (skills.equals(other.skills)) {
+        if (!skills.equals(other.skills)) {
             return false;
         }
-
-        if (strengthSavingThrowAdvantage.equals(other.strengthSavingThrowAdvantage)) {
+        if (!strengthSavingThrowAdvantage.equals(other.strengthSavingThrowAdvantage)) {
             return false;
         }
-
-        if (strengthScore == other.strengthScore) {
+        if (strengthScore != other.strengthScore) {
             return false;
         }
-
-        if (type.equals(other.type)) {
+        if (!type.equals(other.type)) {
             return false;
         }
-
-        if (wisdomSavingThrowAdvantage.equals(other.wisdomSavingThrowAdvantage)) {
+        if (!wisdomSavingThrowAdvantage.equals(other.wisdomSavingThrowAdvantage)) {
             return false;
         }
-
-        if (wisdomScore == other.wisdomScore) {
+        if (wisdomScore != other.wisdomScore) {
             return false;
         }
-        if (customProficiencyBonus == other.customProficiencyBonus) {
+        if (customProficiencyBonus != other.customProficiencyBonus) {
             return false;
         }
-
-        if (telepathyRange == other.telepathyRange) {
+        if (telepathyRange != other.telepathyRange) {
             return false;
         }
-
-        if (intelligenceScore == other.intelligenceScore) {
+        if (intelligenceScore != other.intelligenceScore) {
             return false;
         }
-
-        if (constitutionScore == other.constitutionScore) {
+        if (constitutionScore != other.constitutionScore) {
             return false;
         }
-
-        if (dexterityScore == other.dexterityScore) {
+        if (dexterityScore != other.dexterityScore) {
             return false;
         }
-
-        if (hasCustomSpeed == other.hasCustomSpeed) {
+        if (hasCustomSpeed != other.hasCustomSpeed) {
             return false;
         }
-
-        if (hasCustomHP == other.hasCustomHP) {
+        if (hasCustomHP != other.hasCustomHP) {
             return false;
         }
-
-        if (swimSpeed == other.swimSpeed) {
+        if (swimSpeed != other.swimSpeed) {
             return false;
         }
-
-        if (flySpeed == other.flySpeed) {
+        if (flySpeed != other.flySpeed) {
             return false;
         }
-
-        if (climbSpeed == other.climbSpeed) {
+        if (climbSpeed != other.climbSpeed) {
             return false;
         }
-
-        if (burrowSpeed == other.burrowSpeed) {
+        if (burrowSpeed != other.burrowSpeed) {
             return false;
         }
-
-        if (walkSpeed == other.walkSpeed) {
+        if (walkSpeed != other.walkSpeed) {
             return false;
         }
-
-        if (naturalArmorBonus == other.naturalArmorBonus) {
+        if (naturalArmorBonus != other.naturalArmorBonus) {
             return false;
         }
-
-        if (canHover == other.canHover) {
+        if (canHover != other.canHover) {
             return false;
         }
-
-        if (charismaScore == other.charismaScore) {
+        if (charismaScore != other.charismaScore) {
             return false;
         }
 
         return true;
+    }
+
+    @Override
+    public int hashCode() {
+        Hasher hasher = new Hasher(71, 19);
+        hasher.combine(challengeRating);
+        hasher.combine(understandsButDescription);
+        hasher.combine(languages);
+        hasher.combine(damageVulnerabilities);
+        hasher.combine(damageResistances);
+        hasher.combine(damageImmunities);
+        hasher.combine(conditionImmunities);
+        hasher.combine(charismaSavingThrowProficiency);
+        hasher.combine(wisdomSavingThrowProficiency);
+        hasher.combine(intelligenceSavingThrowProficiency);
+        hasher.combine(constitutionSavingThrowProficiency);
+        hasher.combine(dexteritySavingThrowProficiency);
+        hasher.combine(strengthSavingThrowProficiency);
+        hasher.combine(legendaryActions);
+        hasher.combine(customChallengeRatingDescription);
+        hasher.combine(customSpeedDescription);
+        hasher.combine(customHPDescription);
+        hasher.combine(otherArmorDescription);
+        hasher.combine(alignment);
+        hasher.combine(subtype);
+        hasher.combine(abilities);
+        hasher.combine(actions);
+        hasher.combine(armorType);
+        hasher.combine(charismaSavingThrowAdvantage);
+        hasher.combine(constitutionSavingThrowAdvantage);
+        hasher.combine(dexteritySavingThrowAdvantage);
+        hasher.combine(hitDice);
+        hasher.combine(id);
+        hasher.combine(intelligenceSavingThrowAdvantage);
+        hasher.combine(lairActions);
+        hasher.combine(name);
+        hasher.combine(reactions);
+        hasher.combine(regionalActions);
+        hasher.combine(senses);
+        hasher.combine(shieldBonus);
+        hasher.combine(size);
+        hasher.combine(skills);
+        hasher.combine(strengthSavingThrowAdvantage);
+        hasher.combine(strengthScore);
+        hasher.combine(type);
+        hasher.combine(wisdomSavingThrowAdvantage);
+        hasher.combine(wisdomScore);
+        hasher.combine(customProficiencyBonus);
+        hasher.combine(telepathyRange);
+        hasher.combine(intelligenceScore);
+        hasher.combine(constitutionScore);
+        hasher.combine(dexterityScore);
+        hasher.combine(hasCustomSpeed);
+        hasher.combine(hasCustomHP);
+        hasher.combine(swimSpeed);
+        hasher.combine(flySpeed);
+        hasher.combine(climbSpeed);
+        hasher.combine(burrowSpeed);
+        hasher.combine(walkSpeed);
+        hasher.combine(naturalArmorBonus);
+        hasher.combine(canHover);
+        hasher.combine(charismaScore);
+        return hasher.total();
+    }
+
+    @Override
+    public int compareTo(Monster other) {
+        // TODO: Make this work if other is null.
+        // TODO: Make this work if either name is null.
+        return this.name.compareToIgnoreCase(other.name);
     }
 
     public static class Helpers {
@@ -1131,4 +1157,5 @@ public class Monster {
             }
         }
     }
+
 }

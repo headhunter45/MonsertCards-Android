@@ -7,12 +7,12 @@ import androidx.annotation.Nullable;
 import com.majinnaibu.monstercards.data.enums.AbilityScore;
 import com.majinnaibu.monstercards.data.enums.AdvantageType;
 import com.majinnaibu.monstercards.data.enums.ProficiencyType;
+import com.majinnaibu.monstercards.utils.Hasher;
 
-import java.util.Comparator;
 import java.util.Objects;
 
 @SuppressLint("DefaultLocale")
-public class Skill implements Comparator<Skill>, Comparable<Skill> {
+public class Skill implements Comparable<Skill> {
 
     public String name;
     public AbilityScore abilityScore;
@@ -60,13 +60,10 @@ public class Skill implements Comparator<Skill>, Comparable<Skill> {
     }
 
     @Override
-    public int compareTo(Skill o) {
-        return this.name.compareToIgnoreCase(o.name);
-    }
-
-    @Override
-    public int compare(Skill o1, Skill o2) {
-        return o1.name.compareToIgnoreCase(o2.name);
+    public int compareTo(Skill other) {
+        // TODO: Make this work if other is null.
+        // TODO: Make this work if either name is null.
+        return this.name.compareToIgnoreCase(other.name);
     }
 
     @Override
@@ -91,5 +88,15 @@ public class Skill implements Comparator<Skill>, Comparable<Skill> {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public int hashCode() {
+        Hasher hasher = new Hasher(41, 7);
+        hasher.combine(abilityScore);
+        hasher.combine(advantageType);
+        hasher.combine(name);
+        hasher.combine(proficiencyType);
+        return hasher.total();
     }
 }

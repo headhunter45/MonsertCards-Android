@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 
 import com.majinnaibu.monstercards.AppDatabase;
 import com.majinnaibu.monstercards.helpers.StringHelper;
+import com.majinnaibu.monstercards.models.Deck;
 import com.majinnaibu.monstercards.models.Monster;
+import com.majinnaibu.monstercards.models.relationships.DeckWithMonsters;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +19,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 
 @SuppressWarnings("ResultOfMethodCallIgnored")
 public class MonsterRepository {
+    // TODO: when saving a monster or deck ensure the id is non-null and fits the lowercase UUID format .
 
     private final AppDatabase m_db;
 
@@ -60,16 +63,45 @@ public class MonsterRepository {
         return result;
     }
 
-    public Completable deleteMonster(Monster monster) {
+    public Completable delete(Monster monster) {
         Completable result = m_db.monsterDAO().delete(monster);
         result.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         return result;
     }
 
-    public Completable saveMonster(Monster monster) {
+    public Completable save(Monster monster) {
         Completable result = m_db.monsterDAO().save(monster);
         result.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         return result;
+    }
+
+    public Flowable<List<Deck>> getDecks() {
+        return m_db.deckDAO()
+                .get()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Flowable<Deck> getDeck(UUID deckId) {
+        return m_db.deckDAO()
+                .get(deckId.toString())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Flowable<DeckWithMonsters> getDeckWithMonsters(UUID deckId) {
+        return m_db.deckDAO()
+                .getWithMonsters(deckId.toString())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public void delete(Deck deck) {
+        m_db.deckDAO().delete(deck);
+    }
+
+    public void save(Deck deck) {
+        m_db.deckDAO().save(deck);
     }
 
     private static class Helpers {

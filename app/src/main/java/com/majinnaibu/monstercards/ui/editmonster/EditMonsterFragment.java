@@ -188,7 +188,7 @@ public class EditMonsterFragment extends MCFragment {
                     alertDialog.setMessage("Do you want to save your changes?");
                     alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Save", (dialog, id) -> {
                         // Save the monster. Navigate up if the save is successful. Show a SnackBar if there was an error.
-                        getMonsterRepository().saveMonster(mViewModel.buildMonster())
+                        getMonsterRepository().save(mViewModel.buildMonster())
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(

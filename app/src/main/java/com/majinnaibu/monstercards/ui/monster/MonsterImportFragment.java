@@ -159,7 +159,7 @@ public class MonsterImportFragment extends MCFragment {
                 monster.id = UUID.randomUUID();
                 MonsterCardsApplication application = (MonsterCardsApplication) getApplication();
                 MonsterRepository repository = application.getMonsterRepository();
-                repository.addMonster(monster).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new DisposableCompletableObserver() {
+                repository.save(monster).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new DisposableCompletableObserver() {
                     @Override
                     public void onComplete() {
                         Snackbar.make(

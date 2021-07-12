@@ -74,7 +74,7 @@ public class LibraryFragment extends MCFragment {
             Monster monster = new Monster();
             monster.name = getString(R.string.default_monster_name);
             MonsterRepository repository = this.getMonsterRepository();
-            repository.addMonster(monster)
+            repository.save(monster)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(

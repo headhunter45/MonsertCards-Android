@@ -58,55 +58,55 @@ public class Monster implements Comparable<Monster> {
     @ColumnInfo(name = "strength_score", defaultValue = "10")
     public int strengthScore;
 
-    @ColumnInfo(name = "strength_saving_throw_advantage", defaultValue = "none")
+    @ColumnInfo(name = "strength_saving_throw_advantage", defaultValue = "NONE")
     public AdvantageType strengthSavingThrowAdvantage;
 
-    @ColumnInfo(name = "strength_saving_throw_proficiency", defaultValue = "none")
+    @ColumnInfo(name = "strength_saving_throw_proficiency", defaultValue = "NONE")
     public ProficiencyType strengthSavingThrowProficiency;
 
     @ColumnInfo(name = "dexterity_score", defaultValue = "10")
     public int dexterityScore;
 
-    @ColumnInfo(name = "dexterity_saving_throw_advantage", defaultValue = "none")
+    @ColumnInfo(name = "dexterity_saving_throw_advantage", defaultValue = "NONE")
     public AdvantageType dexteritySavingThrowAdvantage;
 
-    @ColumnInfo(name = "dexterity_saving_throw_proficiency", defaultValue = "none")
+    @ColumnInfo(name = "dexterity_saving_throw_proficiency", defaultValue = "NONE")
     public ProficiencyType dexteritySavingThrowProficiency;
 
     @ColumnInfo(name = "constitution_score", defaultValue = "10")
     public int constitutionScore;
 
-    @ColumnInfo(name = "constitution_saving_throw_advantage", defaultValue = "none")
+    @ColumnInfo(name = "constitution_saving_throw_advantage", defaultValue = "NONE")
     public AdvantageType constitutionSavingThrowAdvantage;
 
-    @ColumnInfo(name = "constitution_saving_throw_proficiency", defaultValue = "none")
+    @ColumnInfo(name = "constitution_saving_throw_proficiency", defaultValue = "NONE")
     public ProficiencyType constitutionSavingThrowProficiency;
 
     @ColumnInfo(name = "intelligence_score", defaultValue = "10")
     public int intelligenceScore;
 
-    @ColumnInfo(name = "intelligence_saving_throw_advantage", defaultValue = "none")
+    @ColumnInfo(name = "intelligence_saving_throw_advantage", defaultValue = "NONE")
     public AdvantageType intelligenceSavingThrowAdvantage;
 
-    @ColumnInfo(name = "intelligence_saving_throw_proficiency", defaultValue = "none")
+    @ColumnInfo(name = "intelligence_saving_throw_proficiency", defaultValue = "NONE")
     public ProficiencyType intelligenceSavingThrowProficiency;
 
     @ColumnInfo(name = "wisdom_score", defaultValue = "10")
     public int wisdomScore;
 
-    @ColumnInfo(name = "wisdom_saving_throw_advantage", defaultValue = "none")
+    @ColumnInfo(name = "wisdom_saving_throw_advantage", defaultValue = "NONE")
     public AdvantageType wisdomSavingThrowAdvantage;
 
-    @ColumnInfo(name = "wisdom_saving_throw_proficiency", defaultValue = "none")
+    @ColumnInfo(name = "wisdom_saving_throw_proficiency", defaultValue = "NONE")
     public ProficiencyType wisdomSavingThrowProficiency;
 
     @ColumnInfo(name = "charisma_score", defaultValue = "10")
     public int charismaScore;
 
-    @ColumnInfo(name = "charisma_saving_throw_advantage", defaultValue = "none")
+    @ColumnInfo(name = "charisma_saving_throw_advantage", defaultValue = "NONE")
     public AdvantageType charismaSavingThrowAdvantage;
 
-    @ColumnInfo(name = "charisma_saving_throw_proficiency", defaultValue = "none")
+    @ColumnInfo(name = "charisma_saving_throw_proficiency", defaultValue = "NONE")
     public ProficiencyType charismaSavingThrowProficiency;
 
     @ColumnInfo(name = "armor_type", defaultValue = "none"/* ArmorType.NONE.stringValue */)

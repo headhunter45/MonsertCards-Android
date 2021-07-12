@@ -59,6 +59,9 @@ android {
     lintOptions {
         checkDependencies true
     }
+    sourceSets {
+        androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
+    }
 }
 
 dependencies {

@@ -1,17 +1,25 @@
 package com.majinnaibu.monstercards.models;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 import com.majinnaibu.monstercards.utils.Hasher;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+@Entity(tableName = "decks")
 public class Deck implements Comparable<Deck> {
+    @PrimaryKey
+    @NonNull
     public UUID id;
+
+    @NonNull
+    @ColumnInfo(defaultValue = "")
     public String name;
-    public List<Monster> monsters;
 
     @Override
     public boolean equals(@Nullable Object obj) {
@@ -35,7 +43,6 @@ public class Deck implements Comparable<Deck> {
         Hasher hasher = new Hasher(0, 0);
         hasher.combine(id);
         hasher.combine(name);
-        hasher.combine(monsters);
         return hasher.total();
     }
 

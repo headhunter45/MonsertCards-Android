@@ -8,7 +8,6 @@ import com.majinnaibu.monstercards.init.FlipperInitializer;
 
 public class MonsterCardsApplication extends Application {
 
-
     private MonsterRepository m_monsterLibraryRepository;
 
 
@@ -25,7 +24,6 @@ public class MonsterCardsApplication extends Application {
     public void onCreate() {
         super.onCreate();
         // Required initialization logic here!
-
         FlipperInitializer.init(this);
         AppDatabase mDB = AppDatabase.getInstance(this);
         m_monsterLibraryRepository = new MonsterRepository(mDB);

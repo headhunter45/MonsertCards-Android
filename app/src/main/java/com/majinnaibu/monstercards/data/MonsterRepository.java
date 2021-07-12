@@ -26,14 +26,14 @@ public class MonsterRepository {
 
     public Flowable<List<Monster>> getMonsters() {
         return m_db.monsterDAO()
-                .getAll()
+                .get()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
     public Flowable<List<Monster>> searchMonsters(String searchText) {
         return m_db.monsterDAO()
-                .getAll()
+                .get()
                 .map(monsters -> {
                     ArrayList<Monster> filteredMonsters = new ArrayList<>();
                     for (Monster monster : monsters) {
@@ -49,21 +49,13 @@ public class MonsterRepository {
 
     public Flowable<Monster> getMonster(@NonNull UUID monsterId) {
         return m_db.monsterDAO()
-                .loadAllByIds(new String[]{monsterId.toString()})
-                .map(
-                        monsters -> {
-                            if (monsters.size() > 0) {
-                                return monsters.get(0);
-                            } else {
-                                return null;
-                            }
-                        })
+                .get(monsterId.toString())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
     public Completable addMonster(Monster monster) {
-        Completable result = m_db.monsterDAO().insertAll(monster);
+        Completable result = m_db.monsterDAO().save(monster);
         result.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         return result;
     }

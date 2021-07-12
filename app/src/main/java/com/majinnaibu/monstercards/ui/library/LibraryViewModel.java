@@ -27,7 +27,7 @@ public class LibraryViewModel extends AndroidViewModel {
         mDB = AppDatabase.getInstance(application);
         mMonsters = new MutableLiveData<>(new ArrayList<>());
         mDB.monsterDAO()
-                .getAll()
+                .get()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new DisposableSubscriber<List<Monster>>() {

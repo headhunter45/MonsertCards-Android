@@ -1,41 +1,72 @@
 package com.majinnaibu.monstercards.ui.decks;
 
+import android.app.Application;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
+import com.majinnaibu.monstercards.AppDatabase;
 import com.majinnaibu.monstercards.models.Deck;
 import com.majinnaibu.monstercards.utils.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.UUID;
 
-public class DecksViewModel extends ViewModel {
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.observers.DisposableCompletableObserver;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+import io.reactivex.rxjava3.subscribers.DisposableSubscriber;
+
+public class DecksViewModel extends AndroidViewModel {
+    private final AppDatabase m_db;
     private final MutableLiveData<List<Deck>> mDecks;
     private int mNumDecks = 0;
 
-    public DecksViewModel() {
+    public DecksViewModel(@NonNull Application application) {
+        super(application);
+        m_db = AppDatabase.getInstance(application);
         mDecks = new MutableLiveData<>(new ArrayList<>());
+        m_db.deckDAO().get().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new DisposableSubscriber<List<Deck>>() {
+            @Override
+            public void onNext(List<Deck> decks) {
+                mDecks.setValue(decks);
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                Logger.logError(t);
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
     }
 
-
     public Deck addNewDeck() {
-        Logger.logUnimplementedMethod();
-        mNumDecks++;
         Deck deck = new Deck();
         deck.id = UUID.randomUUID();
-        deck.name = String.format(Locale.getDefault(), "Deck %d", mNumDecks);
-        List<Deck> decks;
-        List<Deck> oldDecks = mDecks.getValue();
-        if (oldDecks != null) {
-            decks = new ArrayList<>(oldDecks);
-        } else {
-            decks = new ArrayList<>();
-        }
-        decks.add(deck);
-        mDecks.setValue(decks);
+        deck.name = "Unnamed Deck";
+        m_db.deckDAO()
+                .save(deck)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        new DisposableCompletableObserver() {
+                            @Override
+                            public void onComplete() {
+                            }
+
+                            @Override
+                            public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e) {
+
+                            }
+                        }
+                );
         return deck;
     }
 
@@ -44,13 +75,20 @@ public class DecksViewModel extends ViewModel {
     }
 
     public void removeDeck(int position) {
-        List<Deck> oldDecks = mDecks.getValue();
-        if (oldDecks == null || position >= oldDecks.size()) {
-            mDecks.setValue(new ArrayList<>());
-            return;
-        }
-        List<Deck> decks = new ArrayList<>(oldDecks);
-        decks.remove(position);
-        mDecks.setValue(decks);
+        Deck deck = mDecks.getValue().get(position);
+        m_db.deckDAO()
+                .delete(deck)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new DisposableCompletableObserver() {
+                    @Override
+                    public void onComplete() {
+                    }
+
+                    @Override
+                    public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e) {
+                        Logger.logError(e);
+                    }
+                });
     }
 }

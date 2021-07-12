@@ -19,6 +19,7 @@ import com.majinnaibu.monstercards.models.Monster;
 import com.majinnaibu.monstercards.ui.shared.MCFragment;
 import com.majinnaibu.monstercards.utils.Logger;
 
+import java.util.Collections;
 import java.util.List;
 
 public class DashboardFragment extends MCFragment {
@@ -39,7 +40,7 @@ public class DashboardFragment extends MCFragment {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        int columnCount = Math.max(1, getResources().getConfiguration().screenWidthDp / 396);
+        int columnCount = Math.max(1, (int) Math.floor(getResources().getConfiguration().screenWidthDp / 396.0f));
         Context context = requireContext();
         GridLayoutManager layoutManager = new GridLayoutManager(context, columnCount);
         recyclerView.setLayoutManager(layoutManager);

@@ -10,6 +10,7 @@ import com.majinnaibu.monstercards.AppDatabase;
 import com.majinnaibu.monstercards.models.Monster;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -31,6 +32,7 @@ public class DashboardViewModel extends AndroidViewModel {
                 .subscribe(new DisposableSubscriber<List<Monster>>() {
                     @Override
                     public void onNext(List<Monster> monsters) {
+                        Collections.sort(monsters);
                         mMonsters.setValue(monsters);
                     }
 

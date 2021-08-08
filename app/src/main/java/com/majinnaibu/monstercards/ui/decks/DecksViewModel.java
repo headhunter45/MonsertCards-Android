@@ -29,7 +29,7 @@ public class DecksViewModel extends AndroidViewModel {
         super(application);
         m_db = AppDatabase.getInstance(application);
         mDecks = new MutableLiveData<>(new ArrayList<>());
-        m_db.deckDAO().get().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new DisposableSubscriber<List<Deck>>() {
+        m_db.deckDao().get().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new DisposableSubscriber<List<Deck>>() {
             @Override
             public void onNext(List<Deck> decks) {
                 mDecks.setValue(decks);
@@ -51,7 +51,7 @@ public class DecksViewModel extends AndroidViewModel {
         Deck deck = new Deck();
         deck.id = UUID.randomUUID();
         deck.name = "Unnamed Deck";
-        m_db.deckDAO()
+        m_db.deckDao()
                 .save(deck)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -76,7 +76,7 @@ public class DecksViewModel extends AndroidViewModel {
 
     public void removeDeck(int position) {
         Deck deck = mDecks.getValue().get(position);
-        m_db.deckDAO()
+        m_db.deckDao()
                 .delete(deck)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())

@@ -40,7 +40,7 @@ public class SearchViewModel extends AndroidViewModel {
                 mFilterText,
                 filterText -> mFilteredMonsters.setValue(
                         filterMonsters(mAllMonsters.getValue(), filterText)));
-        mDB.monsterDAO()
+        mDB.monsterDao()
                 .get()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())

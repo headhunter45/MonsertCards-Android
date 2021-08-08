@@ -27,7 +27,7 @@ public class LibraryViewModel extends AndroidViewModel {
         super(application);
         mDB = AppDatabase.getInstance(application);
         mMonsters = new MutableLiveData<>(new ArrayList<>());
-        mDB.monsterDAO()
+        mDB.monsterDao()
                 .get()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -57,7 +57,7 @@ public class LibraryViewModel extends AndroidViewModel {
 
     public void removeMonster(int position) {
         Monster monster = mMonsters.getValue().get(position);
-        mDB.monsterDAO()
+        mDB.monsterDao()
                 .delete(monster)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())

@@ -1,5 +1,6 @@
 package com.majinnaibu.monstercards.data;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -11,6 +12,7 @@ import com.majinnaibu.monstercards.models.Deck;
 import com.majinnaibu.monstercards.models.relationships.DeckWithMonsters;
 
 import java.util.List;
+import java.util.UUID;
 
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Flowable;
@@ -21,11 +23,11 @@ public interface DeckDAO {
     Flowable<List<Deck>> get();
 
     @Query("SELECT * FROM decks WHERE id = :deckId")
-    Flowable<Deck> get(String deckId);
+    Flowable<Deck> get(UUID deckId);
 
     @Query("SELECT * FROM decks WHERE id = :deckId")
     @Transaction
-    Flowable<DeckWithMonsters> getWithMonsters(String deckId);
+    LiveData<DeckWithMonsters> getWithMonsters(UUID deckId);
 
     @Delete
     Completable delete(Deck deck);

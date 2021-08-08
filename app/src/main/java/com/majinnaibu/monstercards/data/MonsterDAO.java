@@ -10,6 +10,7 @@ import androidx.room.Query;
 import com.majinnaibu.monstercards.models.Monster;
 
 import java.util.List;
+import java.util.UUID;
 
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Flowable;
@@ -20,10 +21,10 @@ public interface MonsterDAO {
     Flowable<List<Monster>> get();
 
     @Query("SELECT * FROM monsters WHERE id = :monsterId")
-    Flowable<Monster> get(String monsterId);
+    Flowable<Monster> get(UUID monsterId);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    Completable save(Monster... monsters);
+    Completable save(Monster monster);
 
     @Delete
     Completable delete(Monster monster);

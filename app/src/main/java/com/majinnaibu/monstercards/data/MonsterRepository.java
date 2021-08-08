@@ -6,7 +6,6 @@ import com.majinnaibu.monstercards.AppDatabase;
 import com.majinnaibu.monstercards.helpers.StringHelper;
 import com.majinnaibu.monstercards.models.Deck;
 import com.majinnaibu.monstercards.models.Monster;
-import com.majinnaibu.monstercards.models.relationships.DeckWithMonsters;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,14 +27,14 @@ public class MonsterRepository {
     }
 
     public Flowable<List<Monster>> getMonsters() {
-        return m_db.monsterDAO()
+        return m_db.monsterDao()
                 .get()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
     public Flowable<List<Monster>> searchMonsters(String searchText) {
-        return m_db.monsterDAO()
+        return m_db.monsterDao()
                 .get()
                 .map(monsters -> {
                     ArrayList<Monster> filteredMonsters = new ArrayList<>();
@@ -51,57 +50,58 @@ public class MonsterRepository {
     }
 
     public Flowable<Monster> getMonster(@NonNull UUID monsterId) {
-        return m_db.monsterDAO()
-                .get(monsterId.toString())
+        return m_db.monsterDao()
+                .get(monsterId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
     public Completable addMonster(Monster monster) {
-        Completable result = m_db.monsterDAO().save(monster);
+        Completable result = m_db.monsterDao().save(monster);
         result.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         return result;
     }
 
     public Completable delete(Monster monster) {
-        Completable result = m_db.monsterDAO().delete(monster);
+        Completable result = m_db.monsterDao().delete(monster);
         result.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         return result;
     }
 
     public Completable save(Monster monster) {
-        Completable result = m_db.monsterDAO().save(monster);
+        Completable result = m_db.monsterDao().save(monster);
         result.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         return result;
     }
 
     public Flowable<List<Deck>> getDecks() {
-        return m_db.deckDAO()
+        return m_db.deckDao()
                 .get()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
     public Flowable<Deck> getDeck(UUID deckId) {
-        return m_db.deckDAO()
-                .get(deckId.toString())
+        return m_db.deckDao()
+                .get(deckId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Flowable<DeckWithMonsters> getDeckWithMonsters(UUID deckId) {
-        return m_db.deckDAO()
-                .getWithMonsters(deckId.toString())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
-    }
+//    public Flowable<DeckWithMonsters> getDeckWithMonsters(UUID deckId) {
+//        return m_db.deckDAO()
+//                .getWithMonsters(deckId.toString())
+//                .
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread());
+//    }
 
     public void delete(Deck deck) {
-        m_db.deckDAO().delete(deck);
+        m_db.deckDao().delete(deck);
     }
 
     public void save(Deck deck) {
-        m_db.deckDAO().save(deck);
+        m_db.deckDao().save(deck);
     }
 
     private static class Helpers {

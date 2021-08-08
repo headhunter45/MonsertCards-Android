@@ -12,6 +12,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.majinnaibu.monstercards.data.DeckDAO;
 import com.majinnaibu.monstercards.data.MonsterDAO;
+import com.majinnaibu.monstercards.data.MonstersInDecksDAO;
 import com.majinnaibu.monstercards.data.converters.ArmorTypeConverter;
 import com.majinnaibu.monstercards.data.converters.ChallengeRatingConverter;
 import com.majinnaibu.monstercards.data.converters.ListOfTraitsConverter;
@@ -21,12 +22,12 @@ import com.majinnaibu.monstercards.data.converters.SetOfStringConverter;
 import com.majinnaibu.monstercards.data.converters.UUIDConverter;
 import com.majinnaibu.monstercards.models.Deck;
 import com.majinnaibu.monstercards.models.Monster;
-import com.majinnaibu.monstercards.models.relationships.MonstersInDecks;
+import com.majinnaibu.monstercards.models.relationships.MonsterInDeck;
 
 @Database(entities = {
         Monster.class,
         Deck.class,
-        MonstersInDecks.class
+        MonsterInDeck.class
 }, version = 4)
 @TypeConverters({
         ArmorTypeConverter.class,
@@ -120,7 +121,9 @@ public abstract class AppDatabase extends RoomDatabase {
         return instance;
     }
 
-    public abstract MonsterDAO monsterDAO();
+    public abstract DeckDAO deckDao();
 
-    public abstract DeckDAO deckDAO();
+    public abstract MonsterDAO monsterDao();
+
+    public abstract MonstersInDecksDAO monstersInDecksDao();
 }

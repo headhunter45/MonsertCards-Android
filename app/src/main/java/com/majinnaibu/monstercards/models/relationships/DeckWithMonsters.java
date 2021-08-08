@@ -18,7 +18,7 @@ public class DeckWithMonsters {
             entity = Monster.class,
             entityColumn = "id",
             associateBy = @Junction(
-                    value = MonstersInDecks.class,
+                    value = MonsterInDeck.class,
                     parentColumn = "deckId",
                     entityColumn = "monsterId"
             )

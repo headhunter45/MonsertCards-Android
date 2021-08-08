@@ -25,7 +25,7 @@ public class DashboardViewModel extends AndroidViewModel {
         super(application);
         mDB = AppDatabase.getInstance(application);
         mMonsters = new MutableLiveData<>(new ArrayList<>());
-        mDB.monsterDAO()
+        mDB.monsterDao()
                 .get()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

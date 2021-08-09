@@ -8,13 +8,14 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.majinnaibu.monstercards.AppDatabase;
 import com.majinnaibu.monstercards.models.Monster;
+import com.majinnaibu.monstercards.utils.Logger;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.observers.DisposableCompletableObserver;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import io.reactivex.rxjava3.subscribers.DisposableSubscriber;
@@ -22,6 +23,7 @@ import io.reactivex.rxjava3.subscribers.DisposableSubscriber;
 public class LibraryViewModel extends AndroidViewModel {
     private final AppDatabase mDB;
     private final MutableLiveData<List<Monster>> mMonsters;
+
 
     public LibraryViewModel(Application application) {
         super(application);
@@ -40,7 +42,7 @@ public class LibraryViewModel extends AndroidViewModel {
 
                     @Override
                     public void onError(Throwable t) {
-
+                        Logger.logError(t);
                     }
 
                     @Override
@@ -50,6 +52,26 @@ public class LibraryViewModel extends AndroidViewModel {
                 });
     }
 
+    public Monster addNewMonster() {
+        Monster monster = new Monster();
+        monster.id = UUID.randomUUID();
+        monster.name = "Unnamed Monster";
+        mDB.monsterDao()
+                .save(monster)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new DisposableCompletableObserver() {
+                    @Override
+                    public void onComplete() {
+                    }
+
+                    @Override
+                    public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e) {
+                        Logger.logError(e);
+                    }
+                });
+        return monster;
+    }
 
     public LiveData<List<Monster>> getMonsters() {
         return mMonsters;
@@ -64,12 +86,11 @@ public class LibraryViewModel extends AndroidViewModel {
                 .subscribe(new DisposableCompletableObserver() {
                     @Override
                     public void onComplete() {
-
                     }
 
                     @Override
-                    public void onError(@NonNull Throwable e) {
-
+                    public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e) {
+                        Logger.logError(e);
                     }
                 });
     }

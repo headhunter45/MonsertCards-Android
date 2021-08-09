@@ -42,7 +42,7 @@ public class SearchResultsRecyclerViewAdapter extends ListAdapter<Monster, Simpl
     public void onBindViewHolder(@NonNull final SimpleListItemViewHolder<Monster> holder, int position) {
         Monster monster = getItem(position);
         holder.item = monster;
-        holder.contentView.setText(monster.name);
+        holder.content.setText(monster.name);
         holder.itemView.setOnClickListener(view -> {
             if (mOnClick != null) {
                 mOnClick.onItem(holder.item);

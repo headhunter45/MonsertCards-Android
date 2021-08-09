@@ -24,11 +24,11 @@ public class LibraryRecyclerViewAdapter extends ListAdapter<Monster, SimpleListI
             return Monster.areContentsTheSame(oldItem, newItem);
         }
     };
-    private final ItemCallback<Monster> mOnClick;
+    private final ItemCallback<Monster> mOnItemClicked;
 
-    public LibraryRecyclerViewAdapter(ItemCallback<Monster> onClick) {
+    protected LibraryRecyclerViewAdapter(ItemCallback<Monster> onItemClicked) {
         super(DIFF_CALLBACK);
-        mOnClick = onClick;
+        mOnItemClicked = onItemClicked;
     }
 
     @Override
@@ -40,13 +40,12 @@ public class LibraryRecyclerViewAdapter extends ListAdapter<Monster, SimpleListI
 
     @Override
     public void onBindViewHolder(final @NonNull SimpleListItemViewHolder<Monster> holder, int position) {
-        Monster monster = getItem(position);
-        holder.item = monster;
-        holder.contentView.setText(monster.name);
-        holder.itemView.setTag(monster);
+        Monster item = getItem(position);
+        holder.item = item;
+        holder.content.setText(item.name);
         holder.itemView.setOnClickListener(v -> {
-            if (mOnClick != null) {
-                mOnClick.onItem(holder.item);
+            if (mOnItemClicked != null) {
+                mOnItemClicked.onItem(holder.item);
             }
         });
     }

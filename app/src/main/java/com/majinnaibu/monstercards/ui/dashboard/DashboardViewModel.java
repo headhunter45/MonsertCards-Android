@@ -2,12 +2,14 @@ package com.majinnaibu.monstercards.ui.dashboard;
 
 import android.app.Application;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.majinnaibu.monstercards.AppDatabase;
 import com.majinnaibu.monstercards.models.Monster;
+import com.majinnaibu.monstercards.utils.Logger;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,14 +23,14 @@ public class DashboardViewModel extends AndroidViewModel {
     private final AppDatabase mDB;
     private final MutableLiveData<List<Monster>> mMonsters;
 
-    public DashboardViewModel(Application application) {
+    public DashboardViewModel(@NonNull Application application) {
         super(application);
         mDB = AppDatabase.getInstance(application);
         mMonsters = new MutableLiveData<>(new ArrayList<>());
         mDB.monsterDao()
                 .get()
-                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
                 .subscribe(new DisposableSubscriber<List<Monster>>() {
                     @Override
                     public void onNext(List<Monster> monsters) {
@@ -38,6 +40,7 @@ public class DashboardViewModel extends AndroidViewModel {
 
                     @Override
                     public void onError(Throwable t) {
+                        Logger.logError(t);
                     }
 
                     @Override

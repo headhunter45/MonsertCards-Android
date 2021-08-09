@@ -18,6 +18,7 @@ import com.majinnaibu.monstercards.data.enums.ChallengeRating;
 import com.majinnaibu.monstercards.data.enums.ProficiencyType;
 import com.majinnaibu.monstercards.databinding.CardMonsterBinding;
 import com.majinnaibu.monstercards.helpers.CommonMarkHelper;
+import com.majinnaibu.monstercards.helpers.ItemClickedCallback;
 import com.majinnaibu.monstercards.models.Monster;
 import com.majinnaibu.monstercards.models.Trait;
 import com.majinnaibu.monstercards.utils.ItemCallback;
@@ -37,11 +38,11 @@ public class DashboardRecyclerViewAdapter extends ListAdapter<Monster, Dashboard
             return Monster.areContentsTheSame(oldItem, newItem);
         }
     };
-    private final ItemCallback<Monster> mOnClick;
+    private final ItemClickedCallback<Monster> mOnItemClicked;
 
-    protected DashboardRecyclerViewAdapter(ItemCallback<Monster> onClick) {
+    protected DashboardRecyclerViewAdapter(ItemClickedCallback<Monster> onItemClicked) {
         super(DIFF_CALLBACK);
-        mOnClick = onClick;
+        mOnItemClicked = onItemClicked;
     }
 
     @NonNull
@@ -119,8 +120,8 @@ public class DashboardRecyclerViewAdapter extends ListAdapter<Monster, Dashboard
         }
 
         holder.itemView.setOnClickListener(v -> {
-            if (mOnClick != null) {
-                mOnClick.onItem(holder.monster);
+            if (mOnItemClicked != null) {
+                mOnItemClicked.onItemClicked(holder.monster);
             }
         });
     }

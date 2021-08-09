@@ -13,6 +13,7 @@ import com.majinnaibu.monstercards.models.Monster;
 import com.majinnaibu.monstercards.utils.Logger;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -21,10 +22,10 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 import io.reactivex.rxjava3.subscribers.DisposableSubscriber;
 
 public class SearchViewModel extends AndroidViewModel {
+    private final AppDatabase mDB;
     private final MutableLiveData<List<Monster>> mAllMonsters;
     private final MediatorLiveData<List<Monster>> mFilteredMonsters;
     private final MutableLiveData<String> mFilterText;
-    private final AppDatabase mDB;
 
     public SearchViewModel(Application application) {
         super(application);
@@ -47,11 +48,13 @@ public class SearchViewModel extends AndroidViewModel {
                 .subscribe(new DisposableSubscriber<List<Monster>>() {
                     @Override
                     public void onNext(List<Monster> monsters) {
+                        Collections.sort(monsters);
                         mAllMonsters.setValue(monsters);
                     }
 
                     @Override
                     public void onError(Throwable t) {
+                        Logger.logError(t);
                     }
 
                     @Override
@@ -60,32 +63,12 @@ public class SearchViewModel extends AndroidViewModel {
                 });
     }
 
-    private boolean monsterMatchesFilter(Monster monster, String filterText) {
-        if (StringHelper.isNullOrEmpty(filterText)) {
-            return true;
-        }
+    public LiveData<List<Monster>> getMatchedMonsters() {
+        return mFilteredMonsters;
+    }
 
-        if (StringHelper.containsCaseInsensitive(monster.name, filterText)) {
-            return true;
-        }
-
-        if (StringHelper.containsCaseInsensitive(monster.size, filterText)) {
-            return true;
-        }
-
-        if (StringHelper.containsCaseInsensitive(monster.type, filterText)) {
-            return true;
-        }
-
-        if (StringHelper.containsCaseInsensitive(monster.subtype, filterText)) {
-            return true;
-        }
-
-        if (StringHelper.containsCaseInsensitive(monster.alignment, filterText)) {
-            return true;
-        }
-
-        return false;
+    public void setFilterText(String filterText) {
+        mFilterText.setValue(filterText);
     }
 
     private List<Monster> filterMonsters(List<Monster> allMonsters, String filterText) {
@@ -93,26 +76,48 @@ public class SearchViewModel extends AndroidViewModel {
         filterText = filterText.toLowerCase(Locale.ROOT);
         if (allMonsters != null) {
             for (Monster monster : allMonsters) {
-                // TODO: do the filtering like the iOS app does.
-                Logger.logUnimplementedFeature("do the filtering like the iOS app does");
                 // TODO: consider splitting search text into words and if each word appears in any of these fields return true e.g, "large demon" would match large in size and demon in type.
                 // TODO: add tags and search by tags
                 // TODO: add a display of what fields matched on each item in the results
                 // TODO: make the criteria configurable from this screen
                 // TODO: find a way to add challenge rating as a search criteria
-                if (monsterMatchesFilter(monster, filterText)) {
+                if (Helpers.monsterMatchesFilter(monster, filterText)) {
                     filteredMonsters.add(monster);
                 }
             }
         }
+        Collections.sort(filteredMonsters);
+
         return filteredMonsters;
     }
 
-    public LiveData<List<Monster>> getMatchedMonsters() {
-        return mFilteredMonsters;
-    }
+    private static class Helpers {
+        static boolean monsterMatchesFilter(Monster monster, String filterText) {
+            if (StringHelper.isNullOrEmpty(filterText)) {
+                return true;
+            }
 
-    public void setFilterText(String filterText) {
-        mFilterText.setValue(filterText);
+            if (StringHelper.containsCaseInsensitive(monster.name, filterText)) {
+                return true;
+            }
+
+            if (StringHelper.containsCaseInsensitive(monster.size, filterText)) {
+                return true;
+            }
+
+            if (StringHelper.containsCaseInsensitive(monster.type, filterText)) {
+                return true;
+            }
+
+            if (StringHelper.containsCaseInsensitive(monster.subtype, filterText)) {
+                return true;
+            }
+
+            if (StringHelper.containsCaseInsensitive(monster.alignment, filterText)) {
+                return true;
+            }
+
+            return false;
+        }
     }
 }

@@ -10,6 +10,8 @@ import com.majinnaibu.monstercards.MonsterCardsApplication;
 import com.majinnaibu.monstercards.data.MonsterRepository;
 
 public class MCFragment extends Fragment {
+    // TODO: Add a CompositeDisposable and methods to remember disposables so they can be disposed in onDestroy or similar.
+
     public MonsterCardsApplication getApplication() {
         return (MonsterCardsApplication) requireActivity().getApplication();
     }

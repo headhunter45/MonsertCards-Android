@@ -13,7 +13,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -31,14 +30,23 @@ public class SearchFragment extends MCFragment {
     private ViewHolder mHolder;
     private SearchResultsRecyclerViewAdapter mAdapter;
 
+    private void navigateToMonsterDetail(Monster monster) {
+        if (monster != null) {
+            Navigation.findNavController(requireView()).navigate(
+                    SearchFragmentDirections.actionNavigationSearchToNavigationMonster(monster.id.toString()));
+        } else {
+            Logger.logError("Can't navigate to MonsterDetail without a monster.");
+        }
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
         FragmentSearchBinding binding = FragmentSearchBinding.inflate(inflater, container, false);
         mHolder = new ViewHolder(binding);
         // TODO: set the title with setTitle(...)
-        setupMonsterList(binding.monsterList);
-        setupFilterBox(binding.searchQuery);
+        setupMonsterList(mHolder.monsterList);
+        setupFilterBox(mHolder.filterQuery);
         return binding.getRoot();
     }
 
@@ -50,6 +58,7 @@ public class SearchFragment extends MCFragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
             }
 
             @Override
@@ -72,15 +81,6 @@ public class SearchFragment extends MCFragment {
         recyclerView.setAdapter(mAdapter);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(context, layoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
-    }
-
-    public void navigateToMonsterDetail(Monster monster) {
-        if (monster == null) {
-            NavDirections action = SearchFragmentDirections.actionNavigationSearchToNavigationMonster(monster.id.toString());
-            Navigation.findNavController(requireView()).navigate(action);
-        } else {
-            Logger.logError("Can't navigate to MonsterDetail without a monster.");
-        }
     }
 
     private static class ViewHolder {

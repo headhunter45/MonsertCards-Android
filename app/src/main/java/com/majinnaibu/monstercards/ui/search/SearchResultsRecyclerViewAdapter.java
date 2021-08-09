@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 
 import com.majinnaibu.monstercards.databinding.SimpleListItemBinding;
+import com.majinnaibu.monstercards.helpers.ItemClickedCallback;
 import com.majinnaibu.monstercards.models.Monster;
 import com.majinnaibu.monstercards.ui.shared.SimpleListItemViewHolder;
-import com.majinnaibu.monstercards.utils.ItemCallback;
 
 public class SearchResultsRecyclerViewAdapter extends ListAdapter<Monster, SimpleListItemViewHolder<Monster>> {
     private static final DiffUtil.ItemCallback<Monster> DIFF_CALLBACK = new DiffUtil.ItemCallback<Monster>() {
@@ -24,11 +24,11 @@ public class SearchResultsRecyclerViewAdapter extends ListAdapter<Monster, Simpl
             return Monster.areContentsTheSame(oldItem, newItem);
         }
     };
-    private final ItemCallback<Monster> mOnClick;
+    private final ItemClickedCallback<Monster> mOnItemClicked;
 
-    public SearchResultsRecyclerViewAdapter(ItemCallback<Monster> onClick) {
+    protected SearchResultsRecyclerViewAdapter(ItemClickedCallback<Monster> onItemClicked) {
         super(DIFF_CALLBACK);
-        mOnClick = onClick;
+        mOnItemClicked = onItemClicked;
     }
 
     @NonNull
@@ -39,13 +39,13 @@ public class SearchResultsRecyclerViewAdapter extends ListAdapter<Monster, Simpl
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final SimpleListItemViewHolder<Monster> holder, int position) {
-        Monster monster = getItem(position);
-        holder.item = monster;
-        holder.content.setText(monster.name);
-        holder.itemView.setOnClickListener(view -> {
-            if (mOnClick != null) {
-                mOnClick.onItem(holder.item);
+    public void onBindViewHolder(final SimpleListItemViewHolder<Monster> holder, int position) {
+        Monster item = getItem(position);
+        holder.item = item;
+        holder.content.setText(item.name);
+        holder.itemView.setOnClickListener(v -> {
+            if (mOnItemClicked != null) {
+                mOnItemClicked.onItemClicked(holder.item);
             }
         });
     }

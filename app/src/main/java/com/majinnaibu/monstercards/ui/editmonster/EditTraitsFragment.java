@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.majinnaibu.monstercards.R;
 import com.majinnaibu.monstercards.data.enums.TraitType;
+import com.majinnaibu.monstercards.databinding.FragmentEditTraitsListBinding;
 import com.majinnaibu.monstercards.models.Trait;
 import com.majinnaibu.monstercards.ui.shared.MCFragment;
 import com.majinnaibu.monstercards.ui.shared.SwipeToDeleteCallback;
@@ -46,17 +47,18 @@ public class EditTraitsFragment extends MCFragment {
         super.onCreate(savedInstanceState);
     }
 
+    @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
         NavBackStackEntry backStackEntry = navController.getBackStackEntry(R.id.edit_monster_navigation);
         mViewModel = new ViewModelProvider(backStackEntry).get(EditMonsterViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_edit_traits_list, container, false);
-        mHolder = new ViewHolder(root);
+        FragmentEditTraitsListBinding binding = FragmentEditTraitsListBinding.inflate(inflater, container, false);
+        mHolder = new ViewHolder(binding);
         setTitle(getTitleForTraitType(mTraitType));
         setupRecyclerView(mHolder.list);
         setupAddButton(mHolder.addTrait);
-        return root;
+        return binding.getRoot();
     }
 
     @NonNull
@@ -121,9 +123,9 @@ public class EditTraitsFragment extends MCFragment {
         RecyclerView list;
         FloatingActionButton addTrait;
 
-        ViewHolder(@NonNull View root) {
-            list = root.findViewById(R.id.list);
-            addTrait = root.findViewById(R.id.add_trait);
+        ViewHolder(FragmentEditTraitsListBinding binding) {
+            list = binding.list;
+            addTrait = binding.addTrait;
         }
     }
 }

@@ -2,62 +2,51 @@ package com.majinnaibu.monstercards.ui.editmonster;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 
 import com.majinnaibu.monstercards.databinding.SimpleListItemBinding;
-import com.majinnaibu.monstercards.utils.ItemCallback;
+import com.majinnaibu.monstercards.helpers.ItemClickedCallback;
+import com.majinnaibu.monstercards.ui.shared.SimpleListItemViewHolder;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
+public class EditStringsRecyclerViewAdapter extends ListAdapter<String, SimpleListItemViewHolder<String>> {
+    private static final DiffUtil.ItemCallback<String> DIFF_CALLBACK = new DiffUtil.ItemCallback<String>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull String oldItem, @NonNull String newItem) {
+            return oldItem.equals(newItem);
+        }
 
-public class EditStringsRecyclerViewAdapter extends RecyclerView.Adapter<EditStringsRecyclerViewAdapter.ViewHolder> {
-    private final List<String> mValues;
-    private final ItemCallback<String> mOnClick;
+        @Override
+        public boolean areContentsTheSame(@NonNull String oldItem, @NonNull String newItem) {
+            return oldItem.equals(newItem);
+        }
+    };
+    private final ItemClickedCallback<String> mOnItemClicked;
 
-    public EditStringsRecyclerViewAdapter(List<String> items, ItemCallback<String> onClick) {
-        mValues = items;
-        mOnClick = onClick;
+    public EditStringsRecyclerViewAdapter(ItemClickedCallback<String> onItemClicked) {
+        super(DIFF_CALLBACK);
+        mOnItemClicked = onItemClicked;
     }
 
-    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
-        return new ViewHolder(SimpleListItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+    @NotNull
+    public SimpleListItemViewHolder<String> onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
+        return new SimpleListItemViewHolder<>(SimpleListItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mContentView.setText(mValues.get(position));
+    public void onBindViewHolder(final SimpleListItemViewHolder<String> holder, int position) {
+        String item = getItem(position);
+        holder.item = item;
+        holder.content.setText(item);
         holder.itemView.setOnClickListener(v -> {
-            if (mOnClick != null) {
-                mOnClick.onItem(holder.mItem);
+            if (mOnItemClicked != null) {
+                mOnItemClicked.onItemClicked(holder.item);
             }
         });
-    }
-
-    @Override
-    public int getItemCount() {
-        return mValues.size();
-    }
-
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public final TextView mContentView;
-        public String mItem;
-
-        public ViewHolder(SimpleListItemBinding binding) {
-            super(binding.getRoot());
-            mContentView = binding.content;
-        }
-
-        @NonNull
-        @Override
-        public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
-        }
     }
 }

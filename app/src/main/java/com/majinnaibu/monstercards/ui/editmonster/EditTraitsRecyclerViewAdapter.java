@@ -2,20 +2,19 @@ package com.majinnaibu.monstercards.ui.editmonster;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.majinnaibu.monstercards.databinding.SimpleListItemBinding;
+import com.majinnaibu.monstercards.helpers.ItemClickedCallback;
 import com.majinnaibu.monstercards.models.Trait;
-import com.majinnaibu.monstercards.utils.ItemCallback;
+import com.majinnaibu.monstercards.ui.shared.SimpleListItemViewHolder;
 
 import org.jetbrains.annotations.NotNull;
 
-public class EditTraitsRecyclerViewAdapter extends ListAdapter<Trait, EditTraitsRecyclerViewAdapter.ViewHolder> {
+public class EditTraitsRecyclerViewAdapter extends ListAdapter<Trait, SimpleListItemViewHolder<Trait>> {
     private static final DiffUtil.ItemCallback<Trait> DIFF_CALLBACK = new DiffUtil.ItemCallback<Trait>() {
 
         @Override
@@ -28,43 +27,28 @@ public class EditTraitsRecyclerViewAdapter extends ListAdapter<Trait, EditTraits
             return oldItem.equals(newItem);
         }
     };
-    private final ItemCallback<Trait> mOnClick;
+    private final ItemClickedCallback<Trait> mOnItemClicked;
 
-    protected EditTraitsRecyclerViewAdapter(ItemCallback<Trait> onClick) {
+    protected EditTraitsRecyclerViewAdapter(ItemClickedCallback<Trait> onItemClicked) {
         super(DIFF_CALLBACK);
-        mOnClick = onClick;
+        mOnItemClicked = onItemClicked;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
-        return new ViewHolder(SimpleListItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+    public SimpleListItemViewHolder<Trait> onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
+        return new SimpleListItemViewHolder<>(SimpleListItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
-        holder.mItem = getItem(position);
-        holder.mContentView.setText(holder.mItem.name);
+    public void onBindViewHolder(final SimpleListItemViewHolder<Trait> holder, int position) {
+        Trait item = getItem(position);
+        holder.item = item;
+        holder.content.setText(item.name);
         holder.itemView.setOnClickListener(v -> {
-            if (mOnClick != null) {
-                mOnClick.onItem(holder.mItem);
+            if (mOnItemClicked != null) {
+                mOnItemClicked.onItemClicked(holder.item);
             }
         });
-    }
-
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public final TextView mContentView;
-        public Trait mItem;
-
-        public ViewHolder(SimpleListItemBinding binding) {
-            super(binding.getRoot());
-            mContentView = binding.content;
-        }
-
-        @NonNull
-        @Override
-        public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
-        }
     }
 }

@@ -12,7 +12,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavBackStackEntry;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -22,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.majinnaibu.monstercards.R;
 import com.majinnaibu.monstercards.data.enums.StringType;
+import com.majinnaibu.monstercards.databinding.FragmentEditStringsListBinding;
 import com.majinnaibu.monstercards.ui.shared.MCFragment;
 import com.majinnaibu.monstercards.ui.shared.SwipeToDeleteCallback;
 import com.majinnaibu.monstercards.utils.Logger;
@@ -31,7 +31,13 @@ import java.util.List;
 public class EditStringsFragment extends MCFragment {
     private EditMonsterViewModel mViewModel;
     private ViewHolder mHolder;
+    private EditStringsRecyclerViewAdapter mAdapter;
     private StringType mStringType;
+
+    protected void navigateToEditString(String value) {
+        Navigation.findNavController(requireView()).navigate(
+                EditStringsFragmentDirections.actionEditStringsFragmentToEditStringFragment(mStringType, value));
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,12 +57,12 @@ public class EditStringsFragment extends MCFragment {
         NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
         NavBackStackEntry backStackEntry = navController.getBackStackEntry(R.id.edit_monster_navigation);
         mViewModel = new ViewModelProvider(backStackEntry).get(EditMonsterViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_edit_strings_list, container, false);
-        mHolder = new ViewHolder(root);
+        FragmentEditStringsListBinding binding = FragmentEditStringsListBinding.inflate(inflater, container, false);
+        mHolder = new ViewHolder(binding);
         setTitle(getTitleForStringType(mStringType));
         setupRecyclerView(mHolder.list);
         setupAddButton(mHolder.addItem);
-        return root;
+        return binding.getRoot();
     }
 
     @NonNull
@@ -83,18 +89,17 @@ public class EditStringsFragment extends MCFragment {
         recyclerView.setLayoutManager(layoutManager);
 
         LiveData<List<String>> stringsData = mViewModel.getStrings(mStringType);
+        mAdapter = new EditStringsRecyclerViewAdapter(value -> {
+            if (value != null) {
+                navigateToEditString(value);
+            } else {
+                Logger.logError("Can't navigate to EditStringFragment with a null trait");
+            }
+        });
         if (stringsData != null) {
-            stringsData.observe(getViewLifecycleOwner(), strings -> {
-                EditStringsRecyclerViewAdapter adapter = new EditStringsRecyclerViewAdapter(strings, value -> {
-                    if (value != null) {
-                        navigateToEditString(value);
-                    } else {
-                        Logger.logError("Can't navigate to EditStringFragment with a null trait");
-                    }
-                });
-                recyclerView.setAdapter(adapter);
-            });
+            stringsData.observe(getViewLifecycleOwner(), strings -> mAdapter.submitList(strings));
         }
+        recyclerView.setAdapter(mAdapter);
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(context, layoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
@@ -103,8 +108,8 @@ public class EditStringsFragment extends MCFragment {
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
-    private void setupAddButton(@NonNull FloatingActionButton fab) {
-        fab.setOnClickListener(view -> {
+    private void setupAddButton(@NonNull FloatingActionButton addStringButton) {
+        addStringButton.setOnClickListener(view -> {
             String newValue = mViewModel.addNewString(mStringType);
             if (newValue != null) {
                 navigateToEditString(newValue);
@@ -112,18 +117,13 @@ public class EditStringsFragment extends MCFragment {
         });
     }
 
-    protected void navigateToEditString(String value) {
-        NavDirections action = EditStringsFragmentDirections.actionEditStringsFragmentToEditStringFragment(mStringType, value);
-        Navigation.findNavController(requireView()).navigate(action);
-    }
-
     private static class ViewHolder {
         RecyclerView list;
         FloatingActionButton addItem;
 
-        ViewHolder(@NonNull View root) {
-            list = root.findViewById(R.id.list);
-            addItem = root.findViewById(R.id.add_item);
+        ViewHolder(FragmentEditStringsListBinding binding) {
+            list = binding.list;
+            addItem = binding.addItem;
         }
     }
 }

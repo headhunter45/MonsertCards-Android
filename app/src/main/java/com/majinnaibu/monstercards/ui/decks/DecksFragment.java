@@ -28,6 +28,10 @@ public class DecksFragment extends MCFragment {
     private ViewHolder mHolder;
     private DecksRecyclerViewAdapter mAdapter;
 
+    private void navigateToDeck(Deck deck) {
+        Logger.logUnimplementedMethod();
+    }
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         mViewModel = new ViewModelProvider(this).get(DecksViewModel.class);
@@ -50,7 +54,6 @@ public class DecksFragment extends MCFragment {
     }
 
     private void setupRecyclerView(RecyclerView recyclerView) {
-        Logger.logUnimplementedMethod();
         Context context = requireContext();
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
@@ -74,10 +77,6 @@ public class DecksFragment extends MCFragment {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(context,
                 (position, direction) -> mViewModel.removeDeck(position), null));
         itemTouchHelper.attachToRecyclerView(recyclerView);
-    }
-
-    private void navigateToDeck(Deck deck) {
-        Logger.logUnimplementedMethod();
     }
 
     private static class ViewHolder {

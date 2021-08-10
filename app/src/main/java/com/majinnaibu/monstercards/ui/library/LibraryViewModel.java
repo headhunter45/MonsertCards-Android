@@ -78,20 +78,25 @@ public class LibraryViewModel extends AndroidViewModel {
     }
 
     public void removeMonster(int position) {
-        Monster monster = mMonsters.getValue().get(position);
-        mDB.monsterDao()
-                .delete(monster)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new DisposableCompletableObserver() {
-                    @Override
-                    public void onComplete() {
-                    }
+        List<Monster> monsters = mMonsters.getValue();
+        if (monsters != null) {
+            Monster monster = monsters.get(position);
+            if (monster != null) {
+                mDB.monsterDao()
+                        .delete(monster)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe(new DisposableCompletableObserver() {
+                            @Override
+                            public void onComplete() {
+                            }
 
-                    @Override
-                    public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e) {
-                        Logger.logError(e);
-                    }
-                });
+                            @Override
+                            public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e) {
+                                Logger.logError(e);
+                            }
+                        });
+            }
+        }
     }
 }

@@ -31,13 +31,14 @@ public class EditTraitFragment extends MCFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         mViewModel = new ViewModelProvider(this).get(EditTraitViewModel.class);
-        if (getArguments() != null) {
-            EditTraitFragmentArgs args = EditTraitFragmentArgs.fromBundle(getArguments());
+        Bundle arguments = getArguments();
+        if (arguments != null) {
+            EditTraitFragmentArgs args = EditTraitFragmentArgs.fromBundle(arguments);
             mOldValue = new Trait(args.getName(), args.getDescription());
             mViewModel.copyFromTrait(mOldValue);
             mTraitType = args.getTraitType();
         } else {
-            Logger.logWTF("EditTraitFragment needs arguments");
+            Logger.logWTF("EditTraitFragment needs arguments.");
             mOldValue = null;
         }
         super.onCreate(savedInstanceState);

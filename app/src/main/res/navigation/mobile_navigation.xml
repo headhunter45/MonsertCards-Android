@@ -31,6 +31,9 @@
         <action
             android:id="@+id/action_navigation_decks_to_navigation_monster"
             app:destination="@id/navigation_monster" />
+        <action
+            android:id="@+id/action_navigation_decks_to_deckFragment"
+            app:destination="@id/deckFragment" />
     </fragment>
     <fragment
         android:id="@+id/navigation_library"
@@ -241,4 +244,13 @@
     <action
         android:id="@+id/action_global_monsterImportFragment"
         app:destination="@id/monsterImportFragment" />
+    <fragment
+        android:id="@+id/deckFragment"
+        android:name="com.majinnaibu.monstercards.ui.decks.DeckFragment"
+        android:label="fragment_deck"
+        tools:layout="@layout/fragment_deck">
+        <argument
+            android:name="deckId"
+            app:argType="string" />
+    </fragment>
 </navigation>

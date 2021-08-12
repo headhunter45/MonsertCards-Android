@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -29,7 +30,12 @@ public class DecksFragment extends MCFragment {
     private DecksRecyclerViewAdapter mAdapter;
 
     private void navigateToDeck(Deck deck) {
-        Logger.logUnimplementedMethod();
+        if (deck != null) {
+            Navigation.findNavController(requireView()).navigate(
+                    DecksFragmentDirections.actionNavigationDecksToDeckFragment(deck.id.toString()));
+        } else {
+            Logger.logWTF("Unable to navigate to a null Deck.");
+        }
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -59,13 +65,7 @@ public class DecksFragment extends MCFragment {
         recyclerView.setLayoutManager(layoutManager);
 
         LiveData<List<Deck>> deckData = mViewModel.getDecks();
-        mAdapter = new DecksRecyclerViewAdapter(deck -> {
-            if (deck != null) {
-                navigateToDeck(deck);
-            } else {
-                Logger.logError("Can't navigate to DeckFragment with a null deck.");
-            }
-        });
+        mAdapter = new DecksRecyclerViewAdapter(this::navigateToDeck);
         if (deckData != null) {
             deckData.observe(getViewLifecycleOwner(), decks -> mAdapter.submitList(decks));
         }

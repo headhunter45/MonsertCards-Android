@@ -1,6 +1,5 @@
 package com.majinnaibu.monstercards.data;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -27,7 +26,7 @@ public interface DeckDAO {
 
     @Query("SELECT * FROM decks WHERE id = :deckId")
     @Transaction
-    LiveData<DeckWithMonsters> getWithMonsters(UUID deckId);
+    Flowable<DeckWithMonsters> getWithMonsters(UUID deckId);
 
     @Delete
     Completable delete(Deck deck);

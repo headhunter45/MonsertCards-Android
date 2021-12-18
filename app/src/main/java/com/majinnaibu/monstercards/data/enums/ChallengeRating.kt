@@ -1,7 +1,10 @@
-package com.majinnaibu.monstercards.data.enums;
+package com.majinnaibu.monstercards.data.enums
 
-@SuppressWarnings("unused")
-public enum ChallengeRating {
+enum class ChallengeRating(
+    @JvmField val stringValue: String,
+    @JvmField val displayName: String,
+    @JvmField val proficiencyBonus: Int
+) {
     CUSTOM("custom", "Custom", 0),
     ZERO("zero", "0 (10 XP)", 2),
     ONE_EIGHTH("1/8", "1/8 (25 XP)", 2),
@@ -36,25 +39,17 @@ public enum ChallengeRating {
     TWENTY_SEVEN("27", "27 (105,000 XP)", 8),
     TWENTY_EIGHT("28", "28 (120,000 XP)", 8),
     TWENTY_NINE("29", "29 (135,000 XP)", 9),
-    THIRTY("30", "30 (155,000 XP)", 9),
-    ;
+    THIRTY("30", "30 (155,000 XP)", 9);
 
-    public final String displayName;
-    public final String stringValue;
-    public final int proficiencyBonus;
-
-    ChallengeRating(String stringValue, String displayName, int proficiencyBonus) {
-        this.displayName = displayName;
-        this.stringValue = stringValue;
-        this.proficiencyBonus = proficiencyBonus;
-    }
-
-    public static ChallengeRating valueOfString(String string) {
-        for (ChallengeRating challengeRating : values()) {
-            if (challengeRating.stringValue.equals(string)) {
-                return challengeRating;
+    companion object {
+        @JvmStatic
+        fun valueOfString(string: String): ChallengeRating {
+            for (challengeRating in values()) {
+                if (challengeRating.stringValue == string) {
+                    return challengeRating
+                }
             }
+            return ONE
         }
-        return ChallengeRating.ONE;
     }
 }

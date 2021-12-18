@@ -1,7 +1,10 @@
-package com.majinnaibu.monstercards.data.enums;
+package com.majinnaibu.monstercards.data.enums
 
-@SuppressWarnings("unused")
-public enum ArmorType {
+enum class ArmorType(
+    @JvmField val stringValue: String,
+    @JvmField val displayName: String,
+    @JvmField val baseArmorClass: Int
+) {
     NONE("none", "None", 10),
     NATURAL_ARMOR("natural armor", "Natural Armor", 10),
     MAGE_ARMOR("mage armor", "Mage Armor", 10),
@@ -17,25 +20,17 @@ public enum ArmorType {
     CHAIN_MAIL("chain mail", "Chain Mail", 16),
     SPLINT_MAIL("splint", "Splint Mail", 17),
     PLATE_MAIL("plate", "Plate Mail", 18),
-    OTHER("other", "Other", 10),
-    ;
+    OTHER("other", "Other", 10);
 
-    public final String displayName;
-    public final String stringValue;
-    public final int baseArmorClass;
-
-    ArmorType(String stringValue, String displayName, int baseArmorClass) {
-        this.displayName = displayName;
-        this.stringValue = stringValue;
-        this.baseArmorClass = baseArmorClass;
-    }
-
-    public static ArmorType valueOfString(String string) {
-        for (ArmorType armorType : values()) {
-            if (armorType.stringValue.equals(string)) {
-                return armorType;
+    companion object {
+        @JvmStatic
+        fun valueOfString(string: String): ArmorType {
+            for (armorType in values()) {
+                if (armorType.stringValue == string) {
+                    return armorType
+                }
             }
+            return NONE
         }
-        return ArmorType.NONE;
     }
 }

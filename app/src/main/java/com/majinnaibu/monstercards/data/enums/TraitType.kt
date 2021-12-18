@@ -1,6 +1,6 @@
-package com.majinnaibu.monstercards.data.enums;
+package com.majinnaibu.monstercards.data.enums
 
-public enum TraitType {
+enum class TraitType {
     ABILITY,
     ACTION,
     LAIR_ACTION,
